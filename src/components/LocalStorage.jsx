@@ -6,5 +6,5 @@ export const SetToLocalStorage = props => {
 
 export const GetFromLocalStorage = () => {
   const todos = localStorage.getItem('todos');
-  return JSON.parse(todos);
+  return todos ? JSON.parse(todos) : [];
 }
