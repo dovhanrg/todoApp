@@ -14,9 +14,12 @@ class AddTodoForm extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({
-      content: e.target.value
-    })
+    if (e.target.value.trim()) {
+      this.setState({
+        content: e.target.value
+      })
+    }
+    return;
   }
 
   render() {
@@ -24,11 +27,11 @@ class AddTodoForm extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <label>Add new TODO</label>
-          <input 
-          placeholder="enter new task" 
-          type="text" 
-          onChange={this.handleChange}
-          value={this.state.content}
+          <input
+            placeholder="enter new task"
+            type="text"
+            onChange={this.handleChange}
+            value={this.state.content}
           />
         </form>
       </div>
