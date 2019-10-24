@@ -5,11 +5,13 @@ const Todos = ({ todos, deleteTodo }) => {
   const todoList = todos.length ? (
     todos.map((todo, it) => {
       return (
-        <div className="collection-item" key={todo.id}>
+        <div
+          className="collection-item cursor"
+          key={todo.id}
+          onClick={() => { deleteTodo(todo.id) }}
+        >
           <span>{it + 1} </span>
-          <span className="cursor"
-            onClick={() => { deleteTodo(todo.id) }}
-          >
+          <span>
             {todo.content}
           </span>
         </div>
