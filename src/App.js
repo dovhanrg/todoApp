@@ -1,63 +1,51 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Todos from './components/Todos';
 import AddTodoForm from './components/AddTodoForm';
 import CurrentTime from './components/CurrentTime';
 import { SetToLocalStorage, GetFromLocalStorage } from './components/LocalStorage';
 
-class App extends Component {
-/*
-i dont know why, for this moment, but tutor in a didnt use constructor
-*/
-  state = {
-    todos: []
-  }
+const App = () => {
 
-  GetFromLocalStorage = GetFromLocalStorage.bind(this);
-  componentDidMount() {
-    if (this.state.todos.length === 0) {
-      this.setState({
-        todos: GetFromLocalStorage()
-      })
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    if (todos.length === 0) {
+      setTodos(GetFromLocalStorage())
     }
+  }, [todos.length])
+
+
+  const deleteTodo = (id) => {
+    const todosNew = todos.filter(todo => todo.id !== id);
+    setTodos(todosNew);
+    SetToLocalStorage(todosNew);
   }
 
-  deleteTodo = (id) => {
-    const todos = this.state.todos.filter(todo => todo.id !== id);
-    this.setState({
-      todos
-    });
-    SetToLocalStorage(todos);
-  }
-
-  addNewTodo = (todo) => {
+  const addNewTodo = (todo) => {
     todo.id = +((Math.random() * 10000).toFixed(4));
-    let todos = this.state.todos.concat(todo);
-    this.setState({
-      todos
-    })
-    SetToLocalStorage(todos);
+    let newTodos = todos.concat(todo);
+    setTodos(newTodos)
+    SetToLocalStorage(newTodos);
   }
 
-  render() {
-    return (
-      <div className="todo-app container">
-        <CurrentTime
-          sign="this is CurrenTime component"
-        />
-        <h1 className="center blue-text">
-          Todo's
-      </h1>
-        <AddTodoForm
-          addNewTodo={this.addNewTodo}
-        />
-        <Todos
-          todos={this.state.todos}
-          deleteTodo={this.deleteTodo}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="todo-app container">
+      <CurrentTime
+        sign="this is CurrenTime component"
+      />
+      <h1 className="center blue-text">
+        Todo's
+    </h1>
+      <AddTodoForm
+        addNewTodo={addNewTodo}
+      />
+      <Todos
+        todos={todos}
+        deleteTodo={deleteTodo}
+      />
+    </div>
+  )
 }
 
 export default App;
