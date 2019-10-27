@@ -1,7 +1,9 @@
 
 export const SetToLocalStorage = props => {
-  const todos = props ? JSON.stringify(props): JSON.stringify(null);
-  localStorage.setItem('todos', todos)
+  if ( !props || props.length === 0 ) {
+    return localStorage.removeItem('todos');
+  }
+  localStorage.setItem('todos', JSON.stringify(props))
 }
 
 export const GetFromLocalStorage = () => {
